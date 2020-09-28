@@ -1,5 +1,4 @@
-#include "unity_fixture.h"
-
+#include "unity_fixture.h" 
 
 TEST_GROUP_RUNNER(LedDriver)
 {
@@ -17,4 +16,10 @@ TEST_GROUP_RUNNER(LedDriver)
     RUN_TEST_CASE(LedDriver, OutOfBoundsOff);
     RUN_TEST_CASE(LedDriver, OutOfBoundTurnOnProdceRuntimeError);
     RUN_TEST_CASE(LedDriver, OutOfBoundTurnOffProdceRuntimeError);
+    RUN_TEST_CASE(LedDriver, IsOn);
+    RUN_TEST_CASE(LedDriver, UpperAndLowerBoundsIsOn);
+    RUN_TEST_CASE(LedDriver, OutOfBoundIsOnReturnsFalse);
+    RUN_TEST_CASE(LedDriver, OutOfBoundIsOnProducesRuntimeError);
+    RUN_TEST_CASE(LedDriver, IsOff);
+    RUN_TEST_CASE(LedDriver, OutOfBoundIsOffReturnsTrue);
 }

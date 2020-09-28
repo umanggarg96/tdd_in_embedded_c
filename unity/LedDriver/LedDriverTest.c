@@ -113,3 +113,55 @@ TEST(LedDriver, OutOfBoundTurnOffProdceRuntimeError) {
     TEST_ASSERT_EQUAL(-1, RuntimeErrorStub_GetLastParameter());
 }
 
+TEST(LedDriver, IsOn) {
+    TEST_ASSERT_FALSE(LedDriver_IsOn(1));
+    LedDriver_LedOn(1);
+    TEST_ASSERT_TRUE(LedDriver_IsOn(1));
+}
+
+TEST(LedDriver, UpperAndLowerBoundsIsOn) {
+    TEST_ASSERT_FALSE(LedDriver_IsOn(1));
+    TEST_ASSERT_FALSE(LedDriver_IsOn(16));
+    LedDriver_LedOn(1);
+    LedDriver_LedOn(16);
+    TEST_ASSERT_TRUE(LedDriver_IsOn(1));
+    TEST_ASSERT_TRUE(LedDriver_IsOn(16));
+}
+
+TEST(LedDriver, OutOfBoundIsOnReturnsFalse) {
+    LedDriver_LedAllOn();
+    TEST_ASSERT_FALSE(LedDriver_IsOn(-1));
+    TEST_ASSERT_FALSE(LedDriver_IsOn(17));
+    TEST_ASSERT_FALSE(LedDriver_IsOn(0));
+    TEST_ASSERT_FALSE(LedDriver_IsOn(3141)); 
+}
+
+TEST(LedDriver, OutOfBoundIsOnProducesRuntimeError) {
+    TEST_ASSERT_FALSE(LedDriver_IsOn(17));
+    TEST_ASSERT_EQUAL_STRING("LedDriver : out-of-bound LED", 
+                   RuntimeErrorStub_GetLastError());
+    TEST_ASSERT_EQUAL(-1, RuntimeErrorStub_GetLastParameter());
+}
+
+TEST(LedDriver, LedTurnAllOff)
+{
+    LedDriver_LedAllOn();
+    LedDriver_LedAllOff();
+    TEST_ASSERT_EQUAL_HEX16(0x0000, leds);
+}
+
+TEST(LedDriver, IsOff)
+{
+    LedDriver_LedAllOn();
+    TEST_ASSERT_FALSE(LedDriver_IsOff(1));
+    LedDriver_LedOff(1);
+    TEST_ASSERT_TRUE(LedDriver_IsOff(1));
+}
+
+TEST(LedDriver, OutOfBoundIsOffReturnsTrue) {
+    LedDriver_LedAllOn();
+    TEST_ASSERT_TRUE(LedDriver_IsOff(-1));
+    TEST_ASSERT_TRUE(LedDriver_IsOff(17));
+    TEST_ASSERT_TRUE(LedDriver_IsOff(0));
+    TEST_ASSERT_TRUE(LedDriver_IsOff(3141)); 
+}
